@@ -9,14 +9,22 @@ import java.awt.event.MouseMotionListener;
 
 public class Input extends MouseAdapter {
 
-    Board board;
+    //obiekt szachownicy 
+    Board board; 
 
+    //Konstruktor klasy Input, przyjmujący obiekt klasy Board jako argument.
     public Input(Board board) {
         this.board = board;
     }
 
-    //
-    @Override
+    
+  /*
+  Metoda obsługująca zdarzenie przyciśnięcia przycisku myszy.
+  Sprawdza, czy pod klikniętymi współrzędnymi znajduje się figura.
+  Jeśli tak, to ustawia tę figurę jako zaznaczoną na planszy.
+ */
+    
+   @Override
     public void mousePressed(MouseEvent e) {
 
         int col = e.getX() / board.tileSize;
@@ -30,6 +38,11 @@ public class Input extends MouseAdapter {
 
     }
 
+    /*
+  Metoda obsługująca zdarzenie przeciągania myszy.
+  Przesuwa zaznaczoną figurę po planszy zgodnie z ruchem myszy.
+ Odświeża wyświetlanie planszy. */
+    
     @Override
     public void mouseDragged(MouseEvent e) {
 
@@ -44,6 +57,14 @@ public class Input extends MouseAdapter {
     }
 
 
+    /*
+  Metoda obsługująca zdarzenie puszczenia przycisku myszy.
+ Tworzy obiekt klasy Move opisujący ruch przesunięcia figury na planszy.
+  Sprawdza, czy ruch jest poprawny i wykonuje go na planszy.
+  W przypadku ruchu niepoprawnego zwraca figurę na jej pierwotne miejsce na planszy.
+  Odświeża wyświetlanie planszy.
+ */
+    
     @Override
     public void mouseReleased(MouseEvent e) {
 
@@ -51,6 +72,8 @@ public class Input extends MouseAdapter {
         int row = e.getY() / board.tileSize;
 
         if(board.selectedPiece != null){
+            //instancja, wywolanie konstruktora klasy Move,
+            //ktory tworzy nowy obiekt tej klasy
             Move move = new Move(board, board.selectedPiece, col, row);
 
             if(board.isValidMove(move)){
