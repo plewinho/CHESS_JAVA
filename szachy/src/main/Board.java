@@ -7,6 +7,7 @@ import java.awt.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+//klasa board dziedziczy po klasie jpanel 
 public class Board extends JPanel {
 
     public int tileSize= 85; // rozmiar pojedynczego pola szachowncy
@@ -15,10 +16,14 @@ public class Board extends JPanel {
 
     ArrayList<Piece> pieceList = new ArrayList<>(); // lista przechowuje wszystkie figury na planszy
 
+    
+    //aktualnie wybrana figura na planszy
     public Piece selectedPiece;
 
+    //obiekt klasy input reprezentuje interakcje z plansza i potem przypisujemy do board
     Input input = new Input(this);
 
+    //konstruktor klasy Board, inicjalizuje plansze, myszke, figure
     public Board (){
         this.setPreferredSize(new Dimension(cols * tileSize, rows * tileSize));
         this.addMouseListener(input);
@@ -27,6 +32,7 @@ public class Board extends JPanel {
     addPieces(); // dodanie figur do listy
     }
 
+    //zwraca figure znajdujaca sie na danym polu
     public Piece getPiece(int col, int row){
 
         for(Piece piece : pieceList){
@@ -38,6 +44,7 @@ public class Board extends JPanel {
       return null;
     }
 
+    //wykonuje ruch figury na planszy
     public void makeMove(Move move){
 
         move.piece.col = move.newCol;
@@ -48,11 +55,14 @@ public class Board extends JPanel {
         capture(move);
     }
 
+    //usuwa zbitego przeciwnika z planszy
     public void capture(Move move){
 
         pieceList.remove(move.capture);
 
     }
+    
+    //sprawdza czy ruch poprawny
     public boolean isValidMove(Move move){
         if(sameTeam(move.piece, move.capture)){
 
@@ -62,7 +72,7 @@ public class Board extends JPanel {
 
         return true;
     }
-
+//sprawdza czy 2 figury naleza do tej samej druzyny
     public boolean sameTeam(Piece p1, Piece p2) {
         if(p1 == null || p2 == null) {
             return false;
